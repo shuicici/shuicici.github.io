@@ -18,158 +18,158 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 20px; }
+    a { color: var(--accent); }
     
-    .page { max-width: 680px; margin: 0 auto; }
+    .page-nav { max-width: 700px; margin: 0 auto 30px; text-align: center; }
+    .page-nav a { color: var(--text-muted); font-size: 0.88em; }
+    .page-nav a:hover { color: #fff; }
     
-    header { margin-bottom: 32px; }
-    header h1 { font-size: 1.9em; color: #fff; margin-bottom: 6px; }
-    header p { color: var(--text-muted); font-size: 0.95em; }
+    .container { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px; max-width: 700px; margin: 0 auto; }
     
-    .calc { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+    h1 { font-size: 1.8em; color: #fff; margin-bottom: 6px; }
+    .subtitle { color: var(--text-muted); font-size: 0.9em; margin-bottom: 30px; }
     
     .step { margin-bottom: 22px; }
-    .step-num { display: inline-block; width: 26px; height: 26px; background: var(--accent); color: #fff; border-radius: 50%; text-align: center; line-height: 26px; font-size: 0.8em; font-weight: 700; margin-right: 8px; vertical-align: middle; }
-    .step-label { font-size: 0.88em; color: var(--text-muted); margin-bottom: 8px; }
+    .step-label { font-size: 0.82em; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
     
     .options { display: flex; flex-wrap: wrap; gap: 8px; }
-    .opt { background: #0d0d1a; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 0.82em; cursor: pointer; transition: all 0.15s; color: var(--text-muted); }
-    .opt:hover { border-color: var(--accent); color: #fff; }
-    .opt.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .option { background: #0d0d1a; border: 1px solid var(--border); border-radius: 8px; padding: 9px 14px; font-size: 0.85em; cursor: pointer; transition: all 0.15s; color: var(--text-muted); user-select: none; }
+    .option:hover { border-color: var(--accent); color: #fff; }
+    .option.selected { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .option .price-hint { font-size: 0.75em; opacity: 0.7; margin-left: 4px; }
     
-    .result { background: linear-gradient(135deg, #1a2a1a, #1a1a2e); border: 1px solid #2a4a2a; border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; display: none; }
-    .result.show { display: block; }
-    .result .price { font-size: 2.2em; font-weight: 700; color: var(--green); }
-    .result .breakdown { font-size: 0.8em; color: var(--text-muted); margin: 8px 0; }
-    .result .estimate { font-size: 0.78em; color: var(--text-muted); margin-bottom: 14px; }
+    .result { background: #0d0d1a; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 28px; text-align: center; }
+    .result .estimate { font-size: 2.2em; font-weight: 700; color: var(--accent); }
+    .result .breakdown { font-size: 0.8em; color: var(--text-muted); margin-top: 8px; }
+    .result .delivery { font-size: 0.85em; color: var(--green); margin-top: 10px; }
     
+    .cta-row { margin-top: 20px; text-align: center; }
     .cta-btn { display: inline-block; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 12px 28px; border-radius: 10px; font-size: 0.95em; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
     .cta-btn:hover { opacity: 0.85; text-decoration: none; }
     
-    .info { background: #0d0d1a; border-radius: 10px; padding: 14px 16px; font-size: 0.82em; color: var(--text-muted); margin-bottom: 16px; }
-    .info strong { color: var(--text); }
-    
-    .back { display: inline-block; color: var(--accent); font-size: 0.88em; margin-bottom: 20px; }
-    .back:hover { text-decoration: underline; }
+    .disclaimer { text-align: center; font-size: 0.75em; color: var(--text-muted); margin-top: 16px; }
   </style>
 </head>
 <body>
 
-<div class="page">
-  <a href="index.html" class="back">← Back to Portfolio</a>
+<div class="page-nav">
+  <a href="index.html">← Back to Portfolio</a>
+</div>
+
+<div class="container">
+  <h1> Pricing Calculator</h1>
+  <p class="subtitle">Get an instant estimate for your web scraping project.</p>
   
-  <header>
-    <h1>Pricing Calculator</h1>
-    <p>Answer 4 quick questions to get an instant estimate — then reach out for a formal quote.</p>
-  </header>
-  
-  <div class="calc">
-    <div class="step">
-      <div class="step-label"><span class="step-num">1</span>What type of data do you need?</div>
-      <div class="options" id="data-type">
-        <div class="opt" data-value="e-commerce" data-price="25">E-commerce (Amazon, products)</div>
-        <div class="opt" data-value="jobs" data-price="25">Jobs (Indeed, LinkedIn)</div>
-        <div class="opt" data-value="real-estate" data-price="30">Real Estate (Zillow)</div>
-        <div class="opt" data-value="social" data-price="20">Social Media (Reddit, Twitter)</div>
-        <div class="opt" data-value="maps" data-price="40">Business Data (Google Maps)</div>
-        <div class="opt" data-value="news" data-price="20">News / Articles</div>
-        <div class="opt" data-value="other" data-price="25">Other / Custom</div>
-      </div>
-    </div>
-    
-    <div class="step">
-      <div class="step-label"><span class="step-num">2</span>How many records do you need?</div>
-      <div class="options" id="volume">
-        <div class="opt" data-value="under-500" data-mult="1">Under 500</div>
-        <div class="opt" data-value="500-5000" data-mult="1.5">500 – 5,000</div>
-        <div class="opt" data-value="5000-50000" data-mult="2.5">5,000 – 50,000</div>
-        <div class="opt" data-value="50000+" data-mult="4">50,000+</div>
-      </div>
-    </div>
-    
-    <div class="step">
-      <div class="step-label"><span class="step-num">3</span>How often do you need this data?</div>
-      <div class="options" id="frequency">
-        <div class="opt" data-value="one-time" data-mult="1">One-time</div>
-        <div class="opt" data-value="weekly" data-mult="3">Weekly updates</div>
-        <div class="opt" data-value="daily" data-mult="8">Daily / Ongoing</div>
-        <div class="opt" data-value="monthly" data-mult="2">Monthly</div>
-      </div>
-    </div>
-    
-    <div class="step">
-      <div class="step-label"><span class="step-num">4</span>What format do you want?</div>
-      <div class="options" id="format">
-        <div class="opt selected" data-value="json" data-price="0">JSON</div>
-        <div class="opt" data-value="csv" data-price="0">CSV</div>
-        <div class="opt" data-value="both" data-price="5">Both (+$5)</div>
-        <div class="opt" data-value="api" data-price="15">API Access (+$15)</div>
-      </div>
-    </div>
-    
-    <div class="info">
-      <strong>Base price</strong> varies by data type. <strong>Volume multiplier</strong> applies to record count. <strong>Frequency</strong> is for recurring projects. Final quote includes one free revision round.
-    </div>
-    
-    <div class="result" id="result">
-      <div class="price" id="price-display">$25</div>
-      <div class="breakdown" id="breakdown"></div>
-      <div class="estimate">Estimated range — final quote may vary based on site complexity</div>
-      <a href="#" class="cta-btn" id="cta-link">Send Quote Request →</a>
+  <div class="step">
+    <div class="step-label">1 — What do you want to scrape?</div>
+    <div class="options" id="data-type">
+      <div class="option" data-value="ecommerce" data-price="25">E-commerce / Product data <span class="price-hint">from $25</span></div>
+      <div class="option" data-value="jobs" data-price="25">Job listings <span class="price-hint">from $25</span></div>
+      <div class="option" data-value="realestate" data-price="30">Real estate / Property <span class="price-hint">from $30</span></div>
+      <div class="option" data-value="social" data-price="20">Social media (LinkedIn, IG, Twitter) <span class="price-hint">from $20</span></div>
+      <div class="option" data-value="business" data-price="40">Business / Google Maps <span class="price-hint">from $40</span></div>
+      <div class="option" data-value="news" data-price="20">News / Blog articles <span class="price-hint">from $20</span></div>
+      <div class="option" data-value="video" data-price="20">YouTube / Video metadata <span class="price-hint">from $20</span></div>
+      <div class="option" data-value="other" data-price="30">Other / Custom <span class="price-hint">from $30</span></div>
     </div>
   </div>
+  
+  <div class="step">
+    <div class="step-label">2 — How many records do you need?</div>
+    <div class="options" id="volume">
+      <div class="option" data-value="500" data-mult="1">Under 500 <span class="price-hint">base price</span></div>
+      <div class="option" data-value="2000" data-mult="1.5">500 – 2,000 <span class="price-hint">×1.5</span></div>
+      <div class="option" data-value="10000" data-mult="2.5">2,000 – 10,000 <span class="price-hint">×2.5</span></div>
+      <div class="option" data-value="50000" data-mult="4">10,000 – 50,000 <span class="price-hint">×4</span></div>
+      <div class="option" data-value="100000" data-mult="6">50,000+ <span class="price-hint">×6</span></div>
+    </div>
+  </div>
+  
+  <div class="step">
+    <div class="step-label">3 — How often do you need it?</div>
+    <div class="options" id="frequency">
+      <div class="option" data-value="one-time" data-add="0">One-time <span class="price-hint">no extra</span></div>
+      <div class="option" data-value="weekly" data-add="50">Weekly updates <span class="price-hint">+$50/mo</span></div>
+      <div class="option" data-value="daily" data-add="150">Daily / Ongoing <span class="price-hint">+$150/mo</span></div>
+      <div class="option" data-value="api" data-add="200">API access <span class="price-hint">+$200/mo</span></div>
+    </div>
+  </div>
+  
+  <div class="result" id="result" style="display:none;">
+    <div class="estimate" id="price-display">—</div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="delivery" id="delivery"></div>
+  </div>
+  
+  <div class="cta-row" id="cta-row" style="display:none;">
+    <a href="quote.html" class="cta-btn">Get This Quote →</a>
+  </div>
+  
+  <p class="disclaimer">Estimates are indicative. Final price confirmed after reviewing your exact requirements. Most projects delivered in 24-48 hours.</p>
 </div>
 
 <script>
 (function() {
-  var state = { dataType: null, volume: null, frequency: null, format: 'json' };
-  var basePrice = 25;
-  var formatExtra = 0;
+  var state = { dataType: null, volume: null, frequency: null };
   
-  function calc() {
-    if (!state.dataType || !state.volume || !state.frequency) return;
-    
-    var dataPrice = parseFloat(document.querySelector('#data-type .opt.selected').dataset.price) || 25;
-    var volMult = parseFloat(document.querySelector('#volume .opt.selected').dataset.mult) || 1;
-    var freqMult = parseFloat(document.querySelector('#frequency .opt.selected').dataset.mult) || 1;
-    formatExtra = parseFloat(document.querySelector('#format .opt.selected').dataset.price) || 0;
-    
-    var total = Math.round(dataPrice * volMult * freqMult + formatExtra);
-    var breakdown = '';
-    
-    document.getElementById('price-display').textContent = '$' + total;
-    document.getElementById('breakdown').textContent = 
-      'Base $' + dataPrice + ' × volume × frequency' + 
-      (formatExtra > 0 ? ' + $' + formatExtra + ' format' : '');
-    
-    var desc = encodeURIComponent(
-      'Hi, I need data scraping services.\n\n' +
-      'Data type: ' + (document.querySelector('#data-type .opt.selected').textContent) + '\n' +
-      'Volume: ' + (document.querySelector('#volume .opt.selected').textContent) + '\n' +
-      'Frequency: ' + (document.querySelector('#frequency .opt.selected').textContent) + '\n' +
-      'Format: ' + (document.querySelector('#format .opt.selected').textContent) + '\n\n' +
-      'Estimated budget: ~$' + total
-    );
-    document.getElementById('cta-link').href = 'mailto:shuicici@gmail.com?subject=Quote Request — ~$' + total + '&body=' + desc;
-    
-    document.getElementById('result').classList.add('show');
-  }
-  
-  function setup(name) {
-    var el = document.getElementById(name);
-    el.querySelectorAll('.opt').forEach(function(opt) {
+  function setupOptions(groupId, key) {
+    var el = document.getElementById(groupId);
+    el.querySelectorAll('.option').forEach(function(opt) {
       opt.addEventListener('click', function() {
-        el.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+        el.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
         opt.classList.add('selected');
-        state[name === 'data-type' ? 'dataType' : name] = opt.dataset.value;
-        calc();
+        state[key] = {
+          value: opt.dataset.value,
+          price: parseFloat(opt.dataset.price || 0),
+          mult: parseFloat(opt.dataset.mult || 1),
+          add: parseFloat(opt.dataset.add || 0)
+        };
+        update();
       });
     });
   }
   
-  setup('data-type');
-  setup('volume');
-  setup('frequency');
-  setup('format');
+  function update() {
+    var result = document.getElementById('result');
+    var ctaRow = document.getElementById('cta-row');
+    
+    if (!state.dataType || !state.volume || !state.frequency) {
+      result.style.display = 'none';
+      ctaRow.style.display = 'none';
+      return;
+    }
+    
+    var base = state.dataType.price;
+    var mult = state.volume.mult;
+    var add = state.frequency.add;
+    var total = Math.round(base * mult + add);
+    
+    document.getElementById('price-display').textContent = '$' + total;
+    
+    var breakdown = 'Base $' + base + ' × ' + mult + ' (volume)';
+    if (add > 0) breakdown += ' + $' + add + '/mo (' + state.frequency.value.replace('-',' ') + ')';
+    document.getElementById('breakdown').textContent = breakdown;
+    
+    var delivery = total < 100 ? '24-48h delivery' : '48-72h delivery (larger dataset)';
+    document.getElementById('delivery').textContent = '⏱ ' + delivery;
+    
+    result.style.display = 'block';
+    ctaRow.style.display = 'block';
+    
+    // Update CTA link with params
+    var ctaBtn = document.querySelector('.cta-btn');
+    var params = new URLSearchParams({
+      type: state.dataType.value,
+      volume: state.volume.value,
+      frequency: state.frequency.value,
+      estimate: total
+    });
+    ctaBtn.href = 'quote.html?' + params.toString();
+  }
+  
+  setupOptions('data-type', 'dataType');
+  setupOptions('volume', 'volume');
+  setupOptions('frequency', 'frequency');
 })();
 </script>
 
