@@ -14,231 +14,164 @@
       --text: #e0e0e0;
       --text-muted: #9090a0;
       --border: #2a2a4a;
+      --green: #4ade80;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
-    a { color: var(--accent); }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 20px; }
     
-    header { background: var(--primary); border-bottom: 1px solid var(--border); padding: 24px; text-align: center; }
-    header h1 { font-size: 1.8em; margin-bottom: 6px; }
-    header p { color: var(--text-muted); font-size: 0.9em; }
-    header a { color: var(--accent); text-decoration: none; font-size: 0.85em; }
-    header a:hover { text-decoration: underline; }
+    .page { max-width: 680px; margin: 0 auto; }
     
-    .calculator { max-width: 700px; margin: 40px auto; padding: 0 20px; }
+    header { margin-bottom: 32px; }
+    header h1 { font-size: 1.9em; color: #fff; margin-bottom: 6px; }
+    header p { color: var(--text-muted); font-size: 0.95em; }
     
-    .step { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
-    .step h2 { font-size: 1.1em; margin-bottom: 16px; color: #fff; }
-    .step h2 span { display: inline-block; background: var(--accent); color: #fff; width: 26px; height: 26px; border-radius: 50%; text-align: center; line-height: 26px; font-size: 0.8em; margin-right: 10px; }
+    .calc { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
     
-    .option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
-    .option { background: #0d0d1a; border: 2px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; transition: border-color 0.2s; text-align: center; }
-    .option:hover { border-color: #4a4a7a; }
-    .option.selected { border-color: var(--accent); background: #1a1a3e; }
-    .option .name { font-weight: 600; font-size: 0.92em; color: #fff; margin-bottom: 4px; }
-    .option .desc { font-size: 0.75em; color: var(--text-muted); }
-    .option .radio { display: none; }
+    .step { margin-bottom: 22px; }
+    .step-num { display: inline-block; width: 26px; height: 26px; background: var(--accent); color: #fff; border-radius: 50%; text-align: center; line-height: 26px; font-size: 0.8em; font-weight: 700; margin-right: 8px; vertical-align: middle; }
+    .step-label { font-size: 0.88em; color: var(--text-muted); margin-bottom: 8px; }
     
-    .result { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-align: center; margin-top: 24px; }
-    .result .label { font-size: 0.9em; color: var(--text-muted); margin-bottom: 6px; }
-    .result .price { font-size: 3em; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
-    .result .price span { font-size: 0.4em; color: var(--text-muted); font-weight: 400; }
-    .result .breakdown { font-size: 0.82em; color: var(--text-muted); margin: 10px 0; }
-    .result .delivery { font-size: 0.85em; color: #4ade80; margin-top: 8px; }
-    .result .cta { display: inline-block; background: var(--accent); color: #fff; padding: 12px 30px; border-radius: 8px; font-weight: 600; margin-top: 16px; text-decoration: none; }
-    .result .cta:hover { opacity: 0.85; }
+    .options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opt { background: #0d0d1a; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 0.82em; cursor: pointer; transition: all 0.15s; color: var(--text-muted); }
+    .opt:hover { border-color: var(--accent); color: #fff; }
+    .opt.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
     
-    .slider-wrap { margin-top: 12px; }
-    .slider-wrap label { display: block; font-size: 0.85em; color: var(--text-muted); margin-bottom: 6px; }
-    .slider-wrap input[type=range] { width: 100%; accent-color: var(--accent); }
-    .slider-val { font-size: 0.9em; color: var(--accent); font-weight: 600; margin-top: 4px; display: block; }
+    .result { background: linear-gradient(135deg, #1a2a1a, #1a1a2e); border: 1px solid #2a4a2a; border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; display: none; }
+    .result.show { display: block; }
+    .result .price { font-size: 2.2em; font-weight: 700; color: var(--green); }
+    .result .breakdown { font-size: 0.8em; color: var(--text-muted); margin: 8px 0; }
+    .result .estimate { font-size: 0.78em; color: var(--text-muted); margin-bottom: 14px; }
     
-    .hidden { display: none; }
+    .cta-btn { display: inline-block; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 12px 28px; border-radius: 10px; font-size: 0.95em; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+    .cta-btn:hover { opacity: 0.85; text-decoration: none; }
     
-    footer { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.8em; margin-top: 40px; border-top: 1px solid var(--border); }
-    footer a { color: var(--text-muted); }
+    .info { background: #0d0d1a; border-radius: 10px; padding: 14px 16px; font-size: 0.82em; color: var(--text-muted); margin-bottom: 16px; }
+    .info strong { color: var(--text); }
+    
+    .back { display: inline-block; color: var(--accent); font-size: 0.88em; margin-bottom: 20px; }
+    .back:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>💰 Pricing Calculator</h1>
-  <p>Get an instant quote for your web scraping project</p>
-  <a href="index.html">← Back to Portfolio</a>
-</header>
-
-<div class="calculator">
-
-  <!-- Step 1: Data Type -->
-  <div class="step">
-    <h2><span>1</span> What do you want to scrape?</h2>
-    <div class="option-grid" id="dataTypeGrid">
-      <label class="option" onclick="select(this, 'dataType')">
-        <input type="radio" class="radio" name="dataType" value="products">
-        <div class="name">🛒 Products</div>
-        <div class="desc">E-commerce, listings, prices</div>
-      </label>
-      <label class="option" onclick="select(this, 'dataType')">
-        <input type="radio" class="radio" name="dataType" value="people">
-        <div class="name">👤 People</div>
-        <div class="desc">Profiles, contacts, job titles</div>
-      </label>
-      <label class="option" onclick="select(this, 'dataType')">
-        <input type="radio" class="radio" name="dataType" value="jobs">
-        <div class="name">💼 Jobs</div>
-        <div class="desc">Listings, salaries, companies</div>
-      </label>
-      <label class="option" onclick="select(this, 'dataType')">
-        <input type="radio" class="radio" name="dataType" value="realestate">
-        <div class="name">🏠 Real Estate</div>
-        <div class="desc">Listings, prices, sqft, agents</div>
-      </label>
-      <label class="option" onclick="select(this, 'dataType')">
-        <input type="radio" class="radio" name="dataType" value="reviews">
-        <div class="name">⭐ Reviews</div>
-        <div class="desc">Ratings, comments, sentiment</div>
-      </label>
-      <label class="option" onclick="select(this, 'dataType')">
-        <input type="radio" class="radio" name="dataType" value="other">
-        <div class="name">🌐 Other</div>
-        <div class="desc">News, classifieds, custom</div>
-      </label>
+<div class="page">
+  <a href="index.html" class="back">← Back to Portfolio</a>
+  
+  <header>
+    <h1>Pricing Calculator</h1>
+    <p>Answer 4 quick questions to get an instant estimate — then reach out for a formal quote.</p>
+  </header>
+  
+  <div class="calc">
+    <div class="step">
+      <div class="step-label"><span class="step-num">1</span>What type of data do you need?</div>
+      <div class="options" id="data-type">
+        <div class="opt" data-value="e-commerce" data-price="25">E-commerce (Amazon, products)</div>
+        <div class="opt" data-value="jobs" data-price="25">Jobs (Indeed, LinkedIn)</div>
+        <div class="opt" data-value="real-estate" data-price="30">Real Estate (Zillow)</div>
+        <div class="opt" data-value="social" data-price="20">Social Media (Reddit, Twitter)</div>
+        <div class="opt" data-value="maps" data-price="40">Business Data (Google Maps)</div>
+        <div class="opt" data-value="news" data-price="20">News / Articles</div>
+        <div class="opt" data-value="other" data-price="25">Other / Custom</div>
+      </div>
+    </div>
+    
+    <div class="step">
+      <div class="step-label"><span class="step-num">2</span>How many records do you need?</div>
+      <div class="options" id="volume">
+        <div class="opt" data-value="under-500" data-mult="1">Under 500</div>
+        <div class="opt" data-value="500-5000" data-mult="1.5">500 – 5,000</div>
+        <div class="opt" data-value="5000-50000" data-mult="2.5">5,000 – 50,000</div>
+        <div class="opt" data-value="50000+" data-mult="4">50,000+</div>
+      </div>
+    </div>
+    
+    <div class="step">
+      <div class="step-label"><span class="step-num">3</span>How often do you need this data?</div>
+      <div class="options" id="frequency">
+        <div class="opt" data-value="one-time" data-mult="1">One-time</div>
+        <div class="opt" data-value="weekly" data-mult="3">Weekly updates</div>
+        <div class="opt" data-value="daily" data-mult="8">Daily / Ongoing</div>
+        <div class="opt" data-value="monthly" data-mult="2">Monthly</div>
+      </div>
+    </div>
+    
+    <div class="step">
+      <div class="step-label"><span class="step-num">4</span>What format do you want?</div>
+      <div class="options" id="format">
+        <div class="opt selected" data-value="json" data-price="0">JSON</div>
+        <div class="opt" data-value="csv" data-price="0">CSV</div>
+        <div class="opt" data-value="both" data-price="5">Both (+$5)</div>
+        <div class="opt" data-value="api" data-price="15">API Access (+$15)</div>
+      </div>
+    </div>
+    
+    <div class="info">
+      <strong>Base price</strong> varies by data type. <strong>Volume multiplier</strong> applies to record count. <strong>Frequency</strong> is for recurring projects. Final quote includes one free revision round.
+    </div>
+    
+    <div class="result" id="result">
+      <div class="price" id="price-display">$25</div>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="estimate">Estimated range — final quote may vary based on site complexity</div>
+      <a href="#" class="cta-btn" id="cta-link">Send Quote Request →</a>
     </div>
   </div>
-
-  <!-- Step 2: Volume -->
-  <div class="step">
-    <h2><span>2</span> How many records do you need?</h2>
-    <div class="slider-wrap">
-      <label>Number of records</label>
-      <input type="range" id="volumeSlider" min="50" max="20000" step="50" value="500" oninput="updateCalc()">
-      <span class="slider-val" id="volumeVal">500 records</span>
-    </div>
-  </div>
-
-  <!-- Step 3: Frequency -->
-  <div class="step">
-    <h2><span>3</span> How often do you need it?</h2>
-    <div class="option-grid" id="freqGrid">
-      <label class="option" onclick="select(this, 'freq')">
-        <input type="radio" class="radio" name="freq" value="once">
-        <div class="name">🔥 One-time</div>
-        <div class="desc">Just need it once</div>
-      </label>
-      <label class="option" onclick="select(this, 'freq')">
-        <input type="radio" class="radio" name="freq" value="weekly">
-        <div class="name">📅 Weekly</div>
-        <div class="desc">Regular updates</div>
-      </label>
-      <label class="option" onclick="select(this, 'freq')">
-        <input type="radio" class="radio" name="freq" value="daily">
-        <div class="name">☀️ Daily</div>
-        <div class="desc">Every day monitoring</div>
-      </label>
-      <label class="option" onclick="select(this, 'freq')">
-        <input type="radio" class="radio" name="freq" value="realtime">
-        <div class="name">⚡ Real-time</div>
-        <div class="desc">Continuous / API access</div>
-      </label>
-    </div>
-  </div>
-
-  <!-- Step 4: Format -->
-  <div class="step">
-    <h2><span>4</span> Preferred format?</h2>
-    <div class="option-grid" id="formatGrid">
-      <label class="option selected" onclick="select(this, 'format')">
-        <input type="radio" class="radio" name="format" value="json" checked>
-        <div class="name">📄 JSON</div>
-        <div class="desc">For apps & databases</div>
-      </label>
-      <label class="option" onclick="select(this, 'format')">
-        <input type="radio" class="radio" name="format" value="csv">
-        <div class="name">📊 CSV</div>
-        <div class="desc">For spreadsheets</div>
-      </label>
-      <label class="option" onclick="select(this, 'format')">
-        <input type="radio" class="radio" name="format" value="api">
-        <div class="name">🔌 API</div>
-        <div class="desc">Live data feed</div>
-      </label>
-    </div>
-  </div>
-
-  <!-- Result -->
-  <div class="result" id="result">
-    <div class="label">Estimated Price</div>
-    <div class="price" id="priceVal">—<span>/project</span></div>
-    <div class="breakdown" id="breakdown">Complete all steps to see your quote</div>
-    <div class="delivery" id="delivery"></div>
-    <a href="mailto:shuicici@gmail.com" class="cta" id="ctaBtn">Contact Us →</a>
-  </div>
-
 </div>
 
 <script>
-  let state = { dataType: null, volume: 500, freq: null, format: 'json' };
-
-  function select(el, group) {
-    // Remove selected from all in group
-    document.querySelectorAll(`#${group}Grid .option`).forEach(o => o.classList.remove('selected'));
-    el.classList.add('selected');
-    const input = el.querySelector('input');
-    input.checked = true;
-    state[group] = input.value;
-    updateCalc();
+(function() {
+  var state = { dataType: null, volume: null, frequency: null, format: 'json' };
+  var basePrice = 25;
+  var formatExtra = 0;
+  
+  function calc() {
+    if (!state.dataType || !state.volume || !state.frequency) return;
+    
+    var dataPrice = parseFloat(document.querySelector('#data-type .opt.selected').dataset.price) || 25;
+    var volMult = parseFloat(document.querySelector('#volume .opt.selected').dataset.mult) || 1;
+    var freqMult = parseFloat(document.querySelector('#frequency .opt.selected').dataset.mult) || 1;
+    formatExtra = parseFloat(document.querySelector('#format .opt.selected').dataset.price) || 0;
+    
+    var total = Math.round(dataPrice * volMult * freqMult + formatExtra);
+    var breakdown = '';
+    
+    document.getElementById('price-display').textContent = '$' + total;
+    document.getElementById('breakdown').textContent = 
+      'Base $' + dataPrice + ' × volume × frequency' + 
+      (formatExtra > 0 ? ' + $' + formatExtra + ' format' : '');
+    
+    var desc = encodeURIComponent(
+      'Hi, I need data scraping services.\n\n' +
+      'Data type: ' + (document.querySelector('#data-type .opt.selected').textContent) + '\n' +
+      'Volume: ' + (document.querySelector('#volume .opt.selected').textContent) + '\n' +
+      'Frequency: ' + (document.querySelector('#frequency .opt.selected').textContent) + '\n' +
+      'Format: ' + (document.querySelector('#format .opt.selected').textContent) + '\n\n' +
+      'Estimated budget: ~$' + total
+    );
+    document.getElementById('cta-link').href = 'mailto:shuicici@gmail.com?subject=Quote Request — ~$' + total + '&body=' + desc;
+    
+    document.getElementById('result').classList.add('show');
   }
-
-  function updateCalc() {
-    const slider = document.getElementById('volumeSlider');
-    state.volume = parseInt(slider.value);
-    document.getElementById('volumeVal').textContent = state.volume.toLocaleString() + ' records';
-
-    if (!state.dataType || !state.freq) {
-      document.getElementById('priceVal').innerHTML = '—<span>/project</span>';
-      document.getElementById('breakdown').textContent = 'Complete all steps to see your quote';
-      document.getElementById('delivery').textContent = '';
-      return;
-    }
-
-    // Base price by data type
-    const basePrices = { products: 35, people: 40, jobs: 30, realestate: 35, reviews: 25, other: 25 };
-    let price = basePrices[state.dataType] || 25;
-
-    // Volume pricing tiers
-    const v = state.volume;
-    if (v <= 100) price += 10;
-    else if (v <= 500) price += 20;
-    else if (v <= 1000) price += 30;
-    else if (v <= 5000) price += 45;
-    else price += 60;
-
-    // Frequency multiplier
-    const freqMultipliers = { once: 1, weekly: 3, daily: 8, realtime: 15 };
-    price = Math.round(price * (freqMultipliers[state.freq] || 1));
-
-    // Format adjustment
-    if (state.format === 'api') price = Math.round(price * 1.3);
-
-    const freqLabels = { once: 'one-time', weekly: '/week', daily: '/day', realtime: '/month' };
-    document.getElementById('priceVal').innerHTML = `$${price}<span>${freqLabels[state.freq]}</span>`;
-
-    const deliveryDays = v <= 500 ? '1-2' : v <= 5000 ? '2-3' : '3-5';
-    document.getElementById('breakdown').textContent =
-      `${state.volume.toLocaleString()} ${state.dataType} records as ${state.format.toUpperCase()}`;
-    document.getElementById('delivery').textContent = `⏱️ Delivery in ${deliveryDays} business days`;
-
-    const msg = encodeURIComponent(`Hi, I'd like to scrape ${state.volume} ${state.dataType} records (${state.freq}) as ${state.format}. Can you confirm availability and timeline?`);
-    document.getElementById('ctaBtn').href = `mailto:shuicici@gmail.com?subject=Quote Request&body=${msg}`;
+  
+  function setup(name) {
+    var el = document.getElementById(name);
+    el.querySelectorAll('.opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        el.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        state[name === 'data-type' ? 'dataType' : name] = opt.dataset.value;
+        calc();
+      });
+    });
   }
-
-  updateCalc();
+  
+  setup('data-type');
+  setup('volume');
+  setup('frequency');
+  setup('format');
+})();
 </script>
-
-<footer>
-  <p><a href="index.html">← Back to Portfolio</a> &nbsp;|&nbsp; <a href="api.html">API Docs</a> &nbsp;|&nbsp; shuicici@gmail.com</p>
-  <p style="margin-top:6px;">© 2026 Shuicici Data Services</p>
-</footer>
 
 </body>
 </html>
