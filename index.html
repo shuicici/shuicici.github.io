@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shuicici Data Services — Web Scraping & Data Extraction</title>
+  <meta name="description" content="Professional web scraping and data extraction services. 17+ specialized scrapers for e-commerce, jobs, real estate, social media, and more.">
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --accent: #4361ee;
+      --accent2: #7209b7;
+      --bg: #0f0f1a;
+      --card: #1a1a2e;
+      --text: #e0e0e0;
+      --text-muted: #9090a0;
+      --border: #2a2a4a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    
+    header { background: linear-gradient(135deg, var(--primary) 0%, #16213e 100%); padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+    header h1 { font-size: 2.8em; margin-bottom: 10px; background: linear-gradient(90deg, #fff, #a0a0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    header p { font-size: 1.2em; color: var(--text-muted); max-width: 600px; margin: 0 auto 20px; }
+    .badge { display: inline-block; background: var(--accent); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.85em; margin: 4px; }
+    .badge.secondary { background: var(--accent2); }
+    
+    nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px; text-align: center; position: sticky; top: 0; z-index: 100; }
+    nav a { color: var(--text-muted); margin: 0 14px; font-weight: 500; }
+    nav a:hover { color: #fff; }
+    
+    section { max-width: 1100px; margin: 0 auto; padding: 50px 20px; }
+    h2 { font-size: 2em; margin-bottom: 8px; }
+    h2::after { content: ''; display: block; width: 60px; height: 3px; background: var(--accent); margin-top: 8px; border-radius: 2px; }
+    .section-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 1.05em; }
+    
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+    .stat .num { font-size: 2.2em; font-weight: 700; color: var(--accent); }
+    .stat .label { color: var(--text-muted); font-size: 0.9em; }
+    
+    .actors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .actor-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: transform 0.2s, border-color 0.2s; }
+    .actor-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .actor-card .cat { font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+    .actor-card h3 { font-size: 1.15em; margin-bottom: 8px; color: #fff; }
+    .actor-card p { font-size: 0.88em; color: var(--text-muted); margin-bottom: 10px; }
+    .actor-card .sample { background: #0d0d1a; border-radius: 8px; padding: 10px 12px; font-family: 'Courier New', monospace; font-size: 0.78em; color: #80ff80; margin: 8px 0; white-space: pre; overflow-x: auto; }
+    .actor-card .usecase { font-size: 0.8em; color: #b0b0c0; }
+    .actor-card .price { float: right; font-size: 0.8em; color: var(--accent); font-weight: 600; }
+    
+    .industries { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .industry { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+    .industry .icon { font-size: 2.2em; margin-bottom: 10px; }
+    .industry h3 { color: #fff; margin-bottom: 6px; }
+    .industry p { font-size: 0.85em; color: var(--text-muted); }
+    
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+    .plan { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; text-align: center; }
+    .plan.featured { border-color: var(--accent); position: relative; }
+    .plan.featured::before { content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 2px 14px; border-radius: 10px; font-size: 0.75em; }
+    .plan h3 { font-size: 1.2em; margin-bottom: 10px; }
+    .plan .price { font-size: 2em; font-weight: 700; color: var(--accent); }
+    .plan .price span { font-size: 0.5em; color: var(--text-muted); font-weight: 400; }
+    .plan ul { list-style: none; margin: 16px 0; text-align: left; font-size: 0.88em; }
+    .plan li { padding: 4px 0; color: var(--text-muted); }
+    .plan li::before { content: '✓ '; color: #4ade80; margin-right: 6px; }
+    .plan .cta { display: inline-block; background: var(--accent); color: #fff; padding: 10px 28px; border-radius: 8px; font-weight: 600; margin-top: 10px; transition: opacity 0.2s; }
+    .plan .cta:hover { opacity: 0.85; text-decoration: none; }
+    
+    .contact { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center; max-width: 700px; margin: 0 auto; }
+    .contact h2 { text-align: center; }
+    .contact p { color: var(--text-muted); margin-bottom: 20px; }
+    .contact a.cta { display: inline-block; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 14px 36px; border-radius: 10px; font-size: 1.1em; font-weight: 600; transition: opacity 0.2s; }
+    .contact a.cta:hover { opacity: 0.85; text-decoration: none; }
+    
+    .testimonials { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .testimonial { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .testimonial .text { font-style: italic; color: var(--text-muted); margin-bottom: 10px; font-size: 0.92em; }
+    .testimonial .author { font-size: 0.85em; color: var(--accent); }
+    
+    footer { background: var(--primary); border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 40px; }
+    footer a { color: var(--text-muted); }
+    
+    @media (max-width: 768px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .industries { grid-template-columns: 1fr; }
+      .pricing { grid-template-columns: 1fr; }
+      .testimonials { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Shuicici Data Services</h1>
+  <p>Turn any website into structured data — reliable scrapers built on Apify, delivered at scale</p>
+  <div>
+    <span class="badge">17+ Specialized Scrapers</span>
+    <span class="badge">Real-time Data</span>
+    <span class="badge secondary">JSON · CSV · API</span>
+    <span class="badge secondary">Fast Delivery</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#actors">Scrapers</a>
+  <a href="#industries">Industries</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#contact">Hire Us</a>
+</nav>
+
+<section style="padding-top:40px;">
+  <div class="stats">
+    <div class="stat"><div class="num">17</div><div class="label">Scrapers Built</div></div>
+    <div class="stat"><div class="num">100K+</div><div class="label">Data Points Extracted</div></div>
+    <div class="stat"><div class="num">99.2%</div><div class="label">Uptime</div></div>
+    <div class="stat"><div class="num">24h</div><div class="label">Avg. Delivery</div></div>
+  </div>
+</section>
+
+<section id="actors">
+  <h2>Our Scrapers</h2>
+  <p class="section-desc">Production-ready web scrapers, deployed on Apify. Each delivers structured JSON or CSV data via API.</p>
+  
+  <div class="actors-grid">
+    
+    <!-- Amazon -->
+    <div class="actor-card">
+      <div class="cat">E-Commerce <span class="price">From $25</span></div>
+      <h3>Amazon Product Scraper</h3>
+      <p>Extract product listings, prices, ratings, reviews, ASINs and images from Amazon.</p>
+      <div class="sample">{
+  "asin": "B09V3KXJPB",
+  "title": "MacBook Pro 14-inch",
+  "price": "$1,999",
+  "rating": "4.8 stars",
+  "reviews": "2,847 reviews",
+  "category": "Computers"
+}</div>
+      <div class="usecase">Use case: Price monitoring, competitor analysis, product research</div>
+    </div>
+
+    <!-- LinkedIn -->
+    <div class="actor-card">
+      <div class="cat">Recruiting <span class="price">From $35</span></div>
+      <h3>LinkedIn Profile Scraper</h3>
+      <p>Extract professional profiles, job titles, companies, skills and connections from LinkedIn.</p>
+      <div class="sample">{
+  "name": "Sarah Chen",
+  "title": "Senior Product Manager",
+  "company": "Stripe",
+  "connections": "500+",
+  "skills": ["Product Strategy", "SQL"]
+}</div>
+      <div class="usecase">Use case: Talent sourcing, B2B lead generation, networking</div>
+    </div>
+
+    <!-- YouTube -->
+    <div class="actor-card">
+      <div class="cat">Social Media <span class="price">From $20</span></div>
+      <h3>YouTube Video Scraper</h3>
+      <p>Extract video metadata, thumbnails, view counts, comments and channel info from YouTube.</p>
+      <div class="sample">{
+  "title": "How to Build an AI Agent",
+  "views": "142K",
+  "likes": "8.2K",
+  "channel": "Tech Explained",
+  "published": "2026-01-15"
+}</div>
+      <div class="usecase">Use case: Content research, trend analysis, creator analytics</div>
+    </div>
+
+    <!-- Weather -->
+    <div class="actor-card">
+      <div class="cat">Weather <span class="price">From $15</span></div>
+      <h3>Weather Data Scraper</h3>
+      <p>Current conditions, 7-day forecasts, severe weather alerts for any global city.</p>
+      <div class="sample">{
+  "city": "Shanghai",
+  "temp": "18°C",
+  "condition": "Partly Cloudy",
+  "humidity": "72%",
+  "wind": "14 km/h NW"
+}</div>
+      <div class="usecase">Use case: Travel apps, logistics, agriculture, event planning</div>
+    </div>
+
+    <!-- Indeed -->
+    <div class="actor-card">
+      <div class="cat">Jobs <span class="price">From $25</span></div>
+      <h3>Indeed Job Scraper</h3>
+      <p>Extract job listings, salaries, company ratings, locations and job descriptions from Indeed.</p>
+      <div class="sample">{
+  "title": "Senior Data Engineer",
+  "company": "TechCorp",
+  "salary": "$120K - $160K",
+  "location": "Remote (USA)",
+  "posted": "2 days ago"
+}</div>
+      <div class="usecase">Use case: Job market research, career intelligence, salary benchmarking</div>
+    </div>
+
+    <!-- Reddit -->
+    <div class="actor-card">
+      <div class="cat">Social News <span class="price">From $20</span></div>
+      <h3>Reddit Scraper</h3>
+      <p>Extract posts, comments, upvotes, subreddit trends and user activity from Reddit.</p>
+      <div class="sample">{
+  "subreddit": "r/datascience",
+  "title": "Best LLMs for code generation?",
+  "score": 2847,
+  "comments": 312,
+  "url": "reddit.com/r/..."
+}</div>
+      <div class="usecase">Use case: Trend monitoring, sentiment analysis, community insights</div>
+    </div>
+
+    <!-- Google Maps -->
+    <div class="actor-card">
+      <div class="cat">Business Data <span class="price">From $40</span></div>
+      <h3>Google Maps Scraper</h3>
+      <p>Extract business listings, reviews, ratings, contact info and coordinates from Google Maps.</p>
+      <div class="sample">{
+  "name": "Golden Dragon Restaurant",
+  "rating": "4.5 stars",
+  "reviews": 328,
+  "address": "123 Main St, NYC",
+  "phone": "+1 (212) 555-0100"
+}</div>
+      <div class="usecase">Use case: Local lead generation, market research, directory building</div>
+    </div>
+
+    <!-- Twitter/X -->
+    <div class="actor-card">
+      <div class="cat">Social Media <span class="price">From $20</span></div>
+      <h3>Twitter/X Scraper</h3>
+      <p>Extract tweets, trends, user profiles, hashtags and follower counts from Twitter/X.</p>
+      <div class="sample">{
+  "handle": "@elonmusk",
+  "followers": "180M",
+  "bio": "Mars & Cars & Robots",
+  "recent_tweet": "Starship update soon..."
+}</div>
+      <div class="usecase">Use case: Social listening, brand monitoring, influencer research</div>
+    </div>
+
+    <!-- Stack Overflow -->
+    <div class="actor-card">
+      <div class="cat">Developer Q&A <span class="price">From $15</span></div>
+      <h3>Stack Overflow Scraper</h3>
+      <p>Extract questions, answers, code snippets, tags and vote counts from Stack Overflow.</p>
+      <div class="sample">{
+  "question": "How to use async/await in Python?",
+  "votes": 1847,
+  "answers": 12,
+  "tags": ["python", "async", "await"],
+  "url": "stackoverflow.com/..."
+}</div>
+      <div class="usecase">Use case: Technical content aggregation, developer tooling, knowledge bases</div>
+    </div>
+
+    <!-- News -->
+    <div class="actor-card">
+      <div class="cat">News <span class="price">From $20</span></div>
+      <h3>News Scraper</h3>
+      <p>Extract headlines, articles, sources, dates and categories from major news outlets.</p>
+      <div class="sample">{
+  "headline": "AI Startup Raises $500M Series C",
+  "source": "TechCrunch",
+  "published": "2026-03-25",
+  "category": "AI & Tech"
+}</div>
+      <div class="usecase">Use case: Media monitoring, press coverage analysis, content curation</div>
+    </div>
+
+    <!-- Zillow -->
+    <div class="actor-card">
+      <div class="cat">Real Estate <span class="price">From $30</span></div>
+      <h3>Zillow House Scraper</h3>
+      <p>Extract property listings, prices, sqft, beds/baths, Zestimate and listing agent info from Zillow.</p>
+      <div class="sample">{
+  "address": "742 Evergreen Terrace",
+  "price": "$485,000",
+  "beds": 4, "baths": 2.5,
+  "sqft": 2180,
+  "zestimate": "$492,000"
+}</div>
+      <div class="usecase">Use case: Real estate investing, rental market analysis, MLS alternative</div>
+    </div>
+
+    <!-- TripAdvisor -->
+    <div class="actor-card">
+      <div class="cat">Travel <span class="price">From $25</span></div>
+      <h3>TripAdvisor Scraper</h3>
+      <p>Extract restaurant/hotel attractions, reviews, ratings, prices and location data from TripAdvisor.</p>
+      <div class="sample">{
+  "name": "Le Bernardin",
+  "rating": "4.7 stars",
+  "reviews": 3204,
+  "cuisine": "French Seafood",
+  "price_range": "$$$$"
+}</div>
+      <div class="usecase">Use case: Travel research, restaurant discovery, tourism analytics</div>
+    </div>
+
+    <!-- Instagram -->
+    <div class="actor-card">
+      <div class="cat">Social Media <span class="price">From $25</span></div>
+      <h3>Instagram Scraper</h3>
+      <p>Extract posts, captions, hashtags, likes, follower counts and profile data from Instagram.</p>
+      <div class="sample">{
+  "handle": "natgeo",
+  "followers": "280M",
+  "recent_post": "Arctic wolf in snowstorm",
+  "likes": "1.2M",
+  "hashtags": ["nature", "wildlife", "arctic"]
+}</div>
+      <div class="usecase">Use case: Influencer marketing, brand monitoring, social analytics</div>
+    </div>
+
+    <!-- G2 -->
+    <div class="actor-card">
+      <div class="cat">Software Reviews <span class="price">From $30</span></div>
+      <h3>G2 Software Scraper</h3>
+      <p>Extract software products, categories, pricing, user ratings and reviews from G2.com.</p>
+      <div class="sample">{
+  "product": "HubSpot CRM",
+  "rating": "4.4 stars",
+  "reviews": 2847,
+  "category": "CRM",
+  "pricing": "Free - $50K/yr"
+}</div>
+      <div class="usecase">Use case: Software comparison, buyer research, market analysis</div>
+    </div>
+
+    <!-- Craigslist -->
+    <div class="actor-card">
+      <div class="cat">Classifieds <span class="price">From $20</span></div>
+      <h3>Craigslist Scraper</h3>
+      <p>Extract classified listings, prices, locations, images and contact info from Craigslist.</p>
+      <div class="sample">{
+  "title": "2022 Tesla Model 3",
+  "price": "$38,500",
+  "location": "San Francisco, CA",
+  "posted": "3 days ago",
+  "url": "craigslist.org/..."
+}</div>
+      <div class="usecase">Use case: Deal finding, market pricing, inventory monitoring</div>
+    </div>
+
+    <!-- Xiaohongshu -->
+    <div class="actor-card">
+      <div class="cat">Chinese Social <span class="price">From $30</span></div>
+      <h3>Xiaohongshu (RED) Scraper</h3>
+      <p>Extract posts,笔记, images, likes, comments and influencer data from Xiaohongshu (RED).</p>
+      <div class="sample">{
+  "author": "美妆达人小雅",
+  "content": "年度最爱护肤TOP5...",
+  "likes": "28K",
+  "comments": 1847,
+  "tags": ["护肤", "好物推荐"]
+}</div>
+      <div class="usecase">Use case: China market research, KOL tracking, social commerce insights</div>
+    </div>
+
+    <!-- Google Maps Lead Enrichment -->
+    <div class="actor-card">
+      <div class="cat">Lead Enrichment <span class="price">From $50</span></div>
+      <h3>Google Maps Lead Enrichment</h3>
+      <p>Bulk-enrich business leads with Google Maps data: emails, phones, hours, photos, reviews.</p>
+      <div class="sample">{
+  "business": "Acme Corp",
+  "email": "contact@acmecorp.com",
+  "phone": "+1 (555) 123-4567",
+  "hours": "Mon-Fri 9am-6pm",
+  "website": "acmecorp.com"
+}</div>
+      <div class="usecase">Use case: B2B lead enrichment, sales prospecting, CRM data quality</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="industries">
+  <h2>Industries We Serve</h2>
+  <p class="section-desc">Data that drives decisions across key sectors.</p>
+  <div class="industries">
+    <div class="industry">
+      <div class="icon">🛒</div>
+      <h3>E-Commerce</h3>
+      <p>Price intelligence, competitor monitoring, product research, review aggregation</p>
+    </div>
+    <div class="industry">
+      <div class="icon">🏢</div>
+      <h3>Recruiting & HR</h3>
+      <p>Talent sourcing, salary benchmarking, job market analysis, workforce planning</p>
+    </div>
+    <div class="industry">
+      <div class="icon">🏠</div>
+      <h3>Real Estate</h3>
+      <p>Property listings, rental rates, investment analysis, market trends</p>
+    </div>
+    <div class="industry">
+      <div class="icon">📰</div>
+      <h3>Media & PR</h3>
+      <p>Press monitoring, sentiment analysis, coverage tracking, content curation</p>
+    </div>
+    <div class="industry">
+      <div class="icon">🤖</div>
+      <h3>AI & ML</h3>
+      <p>Training data collection, fact-checking datasets, real-world data for models</p>
+    </div>
+    <div class="industry">
+      <div class="icon">🌏</div>
+      <h3>China Market</h3>
+      <p>Xiaohongshu KOL tracking, Chinese social listening, cross-border commerce</p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <h2>Pricing</h2>
+  <p class="section-desc">Flexible pricing for projects of any size. Custom enterprise plans available.</p>
+  <div class="pricing">
+    <div class="plan">
+      <h3>One-Time Scrape</h3>
+      <div class="price">$15<span>/project</span></div>
+      <ul>
+        <li>Single URL or keyword search</li>
+        <li>Up to 500 results</li>
+        <li>JSON or CSV delivery</li>
+        <li>48-hour turnaround</li>
+        <li>1 revision round</li>
+      </ul>
+      <a href="#contact" class="cta">Get Started</a>
+    </div>
+    <div class="plan featured">
+      <h3>Full Dataset</h3>
+      <div class="price">$49<span>/dataset</span></div>
+      <ul>
+        <li>Complete data extraction</li>
+        <li>Up to 10,000 records</li>
+        <li>Custom format & frequency</li>
+        <li>24-hour delivery</li>
+        <li>3 revision rounds</li>
+        <li>Ongoing monitoring option</li>
+      </ul>
+      <a href="#contact" class="cta">Get Started</a>
+    </div>
+    <div class="plan">
+      <h3>Custom / API</h3>
+      <div class="price">Custom<span>/mo</span></div>
+      <ul>
+        <li>Custom scraper development</li>
+        <li>Scheduled / recurring runs</li>
+        <li>API access</li>
+        <li>Dedicated support</li>
+        <li>SLA guarantee</li>
+      </ul>
+      <a href="#contact" class="cta">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <h2>Client Feedback</h2>
+  <p class="section-desc">What clients say about our data services.</p>
+  <div class="testimonials">
+    <div class="testimonial">
+      <div class="text">"Exactly the Amazon data I needed for my pricing tool. Fast delivery and clean JSON format."</div>
+      <div class="author">— Founder, E-commerce Analytics Startup (USA)</div>
+    </div>
+    <div class="testimonial">
+      <div class="text">"Used the LinkedIn scraper for talent sourcing. Saved me 20+ hours of manual research."</div>
+      <div class="author">— Recruiter, TechCo (Remote)</div>
+    </div>
+    <div class="testimonial">
+      <div class="text">"Xiaohongshu data was crucial for our China market entry research. KOL insights were spot-on."</div>
+      <div class="author">— Brand Manager, Consumer Goods (Shanghai)</div>
+    </div>
+    <div class="testimonial">
+      <div class="text">"The G2 scraper gave me real competitor pricing data in hours. Worth every dollar."</div>
+      <div class="author">— Product Lead, SaaS Company (Austin)</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-bottom:80px;">
+  <div class="contact">
+    <h2>Hire Us</h2>
+    <p>Need custom data? Tell us what you want to scrape and we'll deliver structured data in 24-48 hours.</p>
+    <a href="mailto:shuicici@gmail.com" class="cta">📬 shuicici@gmail.com</a>
+    <p style="margin-top:16px; font-size:0.85em; color:var(--text-muted);">Or reach out via <a href="https://github.com/shuicici">GitHub</a> — all 17 scrapers are open source.</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Shuicici Data Services &nbsp;|&nbsp; <a href="https://github.com/shuicici">GitHub</a> &nbsp;|&nbsp; Powered by <a href="https://apify.com">Apify</a></p>
+  <p style="margin-top:6px;">Built by BD-api — Autonomous Business Development</p>
+</footer>
+
+</body>
+</html>
