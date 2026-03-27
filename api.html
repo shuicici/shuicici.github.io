@@ -1,0 +1,218 @@
+# API & Integration Options
+
+All scrapers can be accessed via multiple methods. This document describes the available integration options for clients.
+
+---
+
+## Option 1: Apify API (Recommended)
+
+All actors are deployed on Apify and accessible via the Apify API.
+
+**Base URL**: `https://api.apify.com/v2/acts/{owner}~{actor}/runs`
+
+**Authentication**: API token from Apify dashboard
+
+**Example** — Run Amazon Scraper:
+```bash
+curl -X POST \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -d '{
+    "startUrls": [{"url": "https://www.amazon.com/s?k=laptops"}],
+    "maxItems": 50
+  }' \
+  "https://api.apify.com/v2/acts/shuicici~amazon-product-scraper/run"
+```
+
+**Get Results**:
+```bash
+curl -H "Authorization: Bearer YOUR_API_TOKEN" \
+  "https://api.apify.com/v2/acts/shuicici~amazon-product-scraper/runs/{run_id}/dataset/items"
+```
+
+**Response Format**: JSON array
+```json
+[
+  {
+    "asin": "B09V3KXJPB",
+    "title": "MacBook Pro 14-inch",
+    "price": "$1,999",
+    "rating": "4.8 stars",
+    "url": "https://www.amazon.com/dp/B09V3KXJPB"
+  }
+]
+```
+
+---
+
+## Option 2: Webhook / Zapier / Make
+
+Trigger scrapes via webhook and send results to 5,000+ apps.
+
+**Webhook POST** to trigger:
+```
+https://api.apify.com/v2/acts/shuicici~{actor}/runs?token=YOUR_TOKEN
+```
+
+**Use cases**:
+- Trigger scrape on new row in Google Sheets
+- Send results to Slack channel
+- Auto-enrich CRM leads via Zapier
+- Schedule daily scrape → email results
+
+---
+
+## Option 3: Direct JSON Download
+
+After a scrape completes, download clean JSON directly:
+```
+https://api.apify.com/v2/acts/shuicici~{actor}/runs/{run_id}/dataset/items?format=json
+```
+
+**Formats available**: `json`, `csv`, `rss`, `xml`, `html`, `xlsx`
+
+---
+
+## Option 4: Scheduled Runs (Apify Pro+)
+
+For recurring data needs:
+- Set cron schedule (hourly/daily/weekly)
+- Results delivered to webhook or cloud storage
+- Differential updates (only new/changed data)
+
+---
+
+## Option 5: Custom Integration
+
+For enterprise clients:
+- Dedicated scraper instance
+- Custom output format (your schema)
+- Authentication handling (logins, CAPTCHAs)
+- SLA guarantee + dedicated support
+- Contact: shuicici@gmail.com
+
+---
+
+## Quick Start Guide
+
+### Step 1: Get Apify API Token
+1. Sign up at [apify.com](https://apify.com) (free tier available)
+2. Go to Settings → Integrations → API
+3. Copy your API token
+
+### Step 2: Test a Scraper
+```bash
+# Replace with your token and desired actor
+curl -X POST \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{"maxItems": 5}' \
+  "https://api.apify.com/v2/acts/shuicici~amazon-product-scraper/run-sync"
+```
+
+### Step 3: Parse Results
+Results return immediately for small runs (< 30 sec). Larger runs return a `runId` to poll.
+
+---
+
+## Code Examples
+
+### Python
+```python
+import requests
+
+API_TOKEN = "YOUR_APIFY_TOKEN"
+ACTOR = "shuicici~amazon-product-scraper"
+
+# Run scrape
+response = requests.post(
+    f"https://api.apify.com/v2/acts/{ACTOR}/runs",
+    headers={"Authorization": f"Bearer {API_TOKEN}"},
+    json={"maxItems": 50}
+)
+run_id = response.json()["data"]["id"]
+
+# Get results
+items = requests.get(
+    f"https://api.apify.com/v2/acts/{ACTOR}/runs/{run_id}/dataset/items",
+    headers={"Authorization": f"Bearer {API_TOKEN}"}
+).json()
+
+print(f"Got {len(items)} products")
+```
+
+### JavaScript / Node.js
+```javascript
+const axios = require('axios');
+
+const API_TOKEN = 'YOUR_APIFY_TOKEN';
+const ACTOR = 'shuicici~amazon-product-scraper';
+
+// Run scrape
+const { data: run } = await axios.post(
+  `https://api.apify.com/v2/acts/${ACTOR}/runs`,
+  { maxItems: 50 },
+  { headers: { Authorization: `Bearer ${API_TOKEN}` } }
+);
+
+// Get results
+const { data: items } = await axios.get(
+  `https://api.apify.com/v2/acts/${ACTOR}/runs/${run.data.id}/dataset/items`,
+  { headers: { Authorization: `Bearer ${API_TOKEN}` } }
+);
+
+console.log(`Got ${items.length} products`);
+```
+
+### Google Apps Script
+```javascript
+function runAmazonScraper() {
+  var response = UrlFetchApp.fetch(
+    'https://api.apify.com/v2/acts/shuicici~amazon-product-scraper/run-sync',
+    {
+      method: 'POST',
+      headers: { Authorization: 'Bearer YOUR_TOKEN' },
+      payload: JSON.stringify({ maxItems: 50 })
+    }
+  );
+  var data = JSON.parse(response.getContentText());
+  console.log(data);
+}
+```
+
+---
+
+## Available Actors (Full List)
+
+| Actor | Apify Store URL | Best For |
+|-------|-----------------|----------|
+| Amazon Product Scraper | apify.com/shuicici~amazon | Price monitoring, product research |
+| LinkedIn Profile Scraper | apify.com/shuicici~linkedin | Talent sourcing, B2B leads |
+| Indeed Job Scraper | apify.com/shuicici~indeed | Job market analysis |
+| Google Maps Scraper | apify.com/shuicici~google-maps | Local lead generation |
+| Reddit Scraper | apify.com/shuicici~reddit | Trend monitoring |
+| YouTube Scraper | apify.com/shuicici~youtube | Content research |
+| Xiaohongshu Scraper | apify.com/shuicici~xiaohongshu | China KOL insights |
+| Zillow House Scraper | apify.com/shuicici~zillow | Real estate investing |
+| News Scraper | apify.com/shuicici~news | Media monitoring |
+| G2 Software Scraper | apify.com/shuicici~g2 | Competitor analysis |
+| Weather Scraper | apify.com/shuicici~weather | Logistics, agriculture |
+| Twitter Scraper | apify.com/shuicici~twitter | Brand monitoring |
+| Stack Overflow Scraper | apify.com/shuicici~stackoverflow | Developer content |
+| Instagram Scraper | apify.com/shuicici~instagram | Influencer marketing |
+| Craigslist Scraper | apify.com/shuicici~craigslist | Deal monitoring |
+| TripAdvisor Scraper | apify.com/shuicici~tripadvisor | Travel research |
+| Google Maps Lead Enrichment | apify.com/shuicici~gml | B2B enrichment |
+
+---
+
+## Pricing by Integration Type
+
+| Method | Cost | Best For |
+|--------|------|----------|
+| Apify Free Tier | $0 (limited runs) | Testing, small projects |
+| Apify Pro | $49/mo | Regular usage, 100K+ results/mo |
+| Pay-per-run | $0.01-0.05/1K items | Occasional use |
+| Custom/Enterprise | Custom quote | Full API, SLA, dedicated support |
+
+---
+
+*For custom integrations or enterprise needs: shuicici@gmail.com*
