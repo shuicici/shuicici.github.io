@@ -1,0 +1,9 @@
+city,temp_f,temp_c,condition,humidity_pct,wind_mph,uv_index,visibility_mi,feels_like_f
+"New York",58,14,Partly Cloudy,65,12 NW,5,10,54
+"London",52,11,Rain,82,18 W,2,6,48
+"Tokyo",68,20,Clear,55,8 NE,6,10,66
+"Shanghai",72,22,Cloudy,68,10 SE,7,8,70
+"San Francisco",64,18,Fog,88,14 W,3,5,61
+"Sydney",78,26,Sunny,45,12 E,9,10,76
+"Berlin",48,9,Overcast,73,15 NW,3,7,44
+"Toronto",45,7,Snow,80,22 N,1,4,38
