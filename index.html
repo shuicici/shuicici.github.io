@@ -84,11 +84,22 @@
     footer { background: var(--primary); border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 40px; }
     footer a { color: var(--text-muted); }
     
+    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; margin-bottom: 12px; }
+    .faq-item h4 { color: #fff; font-size: 1em; margin-bottom: 6px; }
+    .faq-item p { font-size: 0.88em; color: var(--text-muted); }
+    
+    .how-it-works { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+    .step { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+    .step .num { display: inline-block; width: 32px; height: 32px; line-height: 32px; background: var(--accent); color: #fff; border-radius: 50%; font-weight: 700; font-size: 0.9em; margin-bottom: 10px; }
+    .step h4 { color: #fff; font-size: 0.95em; margin-bottom: 6px; }
+    .step p { font-size: 0.8em; color: var(--text-muted); }
+    
     @media (max-width: 768px) {
       .stats { grid-template-columns: repeat(2, 1fr); }
       .industries { grid-template-columns: 1fr; }
       .pricing { grid-template-columns: 1fr; }
       .testimonials { grid-template-columns: 1fr; }
+      .how-it-works { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -421,6 +432,33 @@
   </div>
 </section>
 
+<section id="how-it-works" style="padding-top:40px;">
+  <h2>How It Works</h2>
+  <p class="section-desc">From request to delivered data — in 3 simple steps.</p>
+  <div class="how-it-works">
+    <div class="step">
+      <div class="num">1</div>
+      <h4>Tell Us What You Need</h4>
+      <p>Share the website, data fields, and volume you need. We'll confirm feasibility and timeline.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h4>We Build & Test</h4>
+      <p>We configure or build the scraper, run test extractions, and validate data quality.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h4>Delivered in Your Format</h4>
+      <p>Receive clean JSON, CSV, or API access. Ongoing monitoring available on request.</p>
+    </div>
+    <div class="step">
+      <div class="num">✓</div>
+      <h4>Full Support</h4>
+      <p>Data quality guaranteed. One free revision round included with every delivery.</p>
+    </div>
+  </div>
+</section>
+
 <section id="pricing">
   <h2>Pricing</h2>
   <p class="section-desc">Flexible pricing for projects of any size. Custom enterprise plans available.</p>
@@ -485,6 +523,44 @@
       <div class="text">"The G2 scraper gave me real competitor pricing data in hours. Worth every dollar."</div>
       <div class="author">— Product Lead, SaaS Company (Austin)</div>
     </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0;">
+  <h2>FAQ</h2>
+  <p class="section-desc">Common questions about our web scraping services.</p>
+  
+  <div class="faq-item">
+    <h4>Is the data delivered in a usable format?</h4>
+    <p>Yes — all data is delivered as clean JSON or CSV, ready for direct import into spreadsheets, databases, or your application. No messy HTML or parsing required.</p>
+  </div>
+  <div class="faq-item">
+    <h4>How long does a typical scrape take?</h4>
+    <p>Small datasets (under 500 results) are usually delivered within 24 hours. Larger datasets (10,000+ records) typically take 24-48 hours depending on the target website.</p>
+  </div>
+  <div class="faq-item">
+    <h4>Can you handle websites with anti-scraping protection?</h4>
+    <p>We use Apify's infrastructure which includes proxy rotation and browser automation to handle most anti-scraping measures. For highly protected sites, additional pricing may apply.</p>
+  </div>
+  <div class="faq-item">
+    <h4>What's included in the price?</h4>
+    <p>One-time scrapes include the raw dataset, one format conversion (JSON or CSV), and one free revision round. API access and ongoing scheduled runs are available on custom plans.</p>
+  </div>
+  <div class="faq-item">
+    <h4>Do you offer ongoing data monitoring?</h4>
+    <p>Yes — for recurring needs, we can set up scheduled scrapes with periodic delivery (daily, weekly, or custom). Contact us for a custom quote on monitoring plans.</p>
+  </div>
+  <div class="faq-item">
+    <h4>Are your scrapers legal to use?</h4>
+    <p>We scrape only publicly available data. Customers are responsible for ensuring they comply with the terms of service of the websites they're scraping. We do not bypass paywalls or login barriers.</p>
+  </div>
+  <div class="faq-item">
+    <h4>Can I see a sample before ordering?</h4>
+    <p>Yes — most of our scrapers have free test runs available on Apify Store. You can also request a free sample of up to 10 records before placing a full order.</p>
+  </div>
+  <div class="faq-item">
+    <h4>Do you work with non-English websites?</h4>
+    <p>Absolutely. We've scraped websites in Chinese, Japanese, Korean, Spanish, German, French, and more. Multilingual data extraction is one of our specialties.</p>
   </div>
 </section>
 
